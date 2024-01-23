@@ -4,23 +4,22 @@
 
 FROM ubuntu AS build
 
-RUN apt-get update && apt-get install -y golang-go
+RUN RUN apt-get update && apt-get install -y python3-pip
 
-ENV GO111MODULE=off
+#ENV GO111MODULE=off
 
-COPY . .
-
-RUN CGO_ENABLED=0 go build -o /app .
+WORKDIR /app
+COPY . /app
 
 ############################################
 # HERE STARTS THE MAGIC OF MULTI STAGE BUILD
 ############################################
 
-FROM scratch
+FROM gcr.io/distroless/python3
 
 # Copy the compiled binary from the build stage
 COPY --from=build /app /app
 
 # Set the entrypoint for the container to run the binary
-ENTRYPOINT ["/app"]
+ENTRYPOINT ["python3", "app.py"]
 
