@@ -10,7 +10,7 @@ WORKDIR : /cd
 
 COPY . .
 
-RUN gcr.io/distroless/python3
+RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python"]
 
