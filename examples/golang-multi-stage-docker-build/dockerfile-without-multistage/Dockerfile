@@ -4,13 +4,13 @@
 
 FROM ubuntu AS build
 
-RUN apt-get update && apt-get install -y golang-go
+RUN apt-get update && apt-get install -y python3
 
-ENV GO111MODULE=off
+WORKDIR : /cd
 
 COPY . .
 
-RUN CGO_ENABLED=0 go build -o /app .
+RUN gcr.io/distroless/python3
 
-ENTRYPOINT ["/app"]
+ENTRYPOINT ["python"]
 
